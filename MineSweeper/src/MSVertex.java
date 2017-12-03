@@ -2,6 +2,7 @@ public class MSVertex
 {
 	private boolean mine;
 	private boolean flagged;
+	private boolean explored;
 	private int mineCount;
 	private int vertexNumber;
 	
@@ -9,6 +10,7 @@ public class MSVertex
 	{
 		mine = false;
 		flagged = false;
+		explored = false;
 		mineCount = 0;
 		this.vertexNumber = vertexNumber;
 	}
@@ -20,6 +22,10 @@ public class MSVertex
 	public void setFlagged(boolean flagged)
 	{
 		this.flagged = flagged;
+	}
+	public void setExplored(boolean explored)
+	{
+		this.explored = explored;
 	}
 	public void setMineCount(int mineCount)
 	{
@@ -33,6 +39,10 @@ public class MSVertex
 	public boolean isFlagged()
 	{
 		return flagged;
+	}
+	public boolean isExplored()
+	{
+		return explored;
 	}
 	public int getMineCount()
 	{
@@ -51,11 +61,19 @@ public class MSVertex
 		}
 		else if (flagged)
 		{
-			return "O";
+			return "F";
+		}
+		else if (!explored)
+		{
+			return "?";
 		}
 		else
 		{
 			return "" + mineCount;
 		}
+	}
+	public boolean equals(MSVertex other)
+	{
+		return (getVertexNumber() == other.getVertexNumber());
 	}
 }

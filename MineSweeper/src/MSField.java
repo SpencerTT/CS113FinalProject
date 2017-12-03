@@ -22,6 +22,8 @@ public class MSField
 		adjList = new ArrayList<LinkedList<MSVertex>>();
 		populateField();
 		placeMines();
+		setAdjList();
+		setMineCount();
 	}
 	
 	private void populateField()
@@ -53,20 +55,116 @@ public class MSField
 		}
 	}
 	
+	private void setAdjList()
+	{
+		for(int x = 0; x < fieldLength; x++)
+		{
+			for(int y = 0; y < fieldLength; y++)
+			{
+				LinkedList<MSVertex> adjCurrent = new LinkedList<MSVertex>();
+				//Upper Left
+				if (x != 0 && y != 0)
+				{
+					adjCurrent.add(field[x-1][y-1]);
+				}
+				//Up
+				if (x != 0)
+				{
+					adjCurrent.add(field[x-1][y]);
+				}
+				//Upper Right
+				if (x != 0 && y != fieldLength - 1)
+				{
+					adjCurrent.add(field[x-1][y+1]);
+				}
+				//Left
+				if (y != 0)
+				{
+					adjCurrent.add(field[x][y-1]);
+				}
+				//Right
+				if (y != fieldLength - 1)
+				{
+					adjCurrent.add(field[x][y+1]);
+				}
+				//Lower Left
+				if (x != fieldLength - 1 && y != 0)
+				{
+					adjCurrent.add(field[x+1][y-1]);
+				}
+				//Low
+				if (x != fieldLength - 1)
+				{
+					adjCurrent.add(field[x+1][y]);
+				}
+				//Lower Right
+				if (x != fieldLength - 1 && y != fieldLength - 1)
+				{
+					adjCurrent.add(field[x+1][y+1]);
+				}
+				adjList.add(adjCurrent);
+			}
+		}
+	}
+	
 	private void setMineCount()
 	{
 		for(int x = 0; x < fieldLength; x++)
 		{
 			for(int y = 0; y < fieldLength; y++)
 			{
+				int mineCount = 0;
 				MSVertex current = field[x][y];
+				LinkedList<MSVertex>currentAdj = adjList.get(x * fieldLength + y);
+				for(MSVertex currentVertex : currentAdj)
+				{
+					if(currentVertex.isMine())
+					{
+						mineCount++;
+					}
+				}
+				current.setMineCount(mineCount);
 			}
 		}
 	}
 	
-	private void setAdjList()
+	public boolean exploreVertex(int x, int y)
 	{
+		MSVertex current = field[x][y];
+		if (current.isMine())
+		{
+			return false;
+		}
+		else
+		{
+			exploreBreadthFirst(x, y);
+			return true;
+		}
+	}
+	
+	private void exploreBreadthFirst(int x, int y)
+	{
+		LinkedList<MSVertex> queue = new LinkedList<MSVertex>();
 		
+		MSVertex startVertex = field[x][y];
+		queue.offer(startVertex);
+		while (!queue.isEmpty())
+		{
+			MSVertex current = queue.poll();
+			current.setExplored(true);
+			LinkedList<MSVertex>currentAdj = adjList.get(current.getVertexNumber());
+			for(MSVertex currentVertex : currentAdj)
+			{
+				if (currentVertex.isExplored() == false)
+				{
+					currentVertex.setExplored(true);
+					if (currentVertex.getMineCount() == 0)
+					{
+						queue.offer(currentVertex);
+					}
+				}
+			}
+		}
 	}
 	
 	public void setCorrectFlags(int correctFlags)
