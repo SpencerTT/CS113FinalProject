@@ -4,6 +4,7 @@ import java.util.LinkedList;
 public class MSField
 {
 	private int fieldLength;
+	@SuppressWarnings("unused")
 	private double fieldDensity;
 	private int totalMines;
 	private int correctFlags;
@@ -15,11 +16,11 @@ public class MSField
 	{
 		this.fieldLength = fieldLength;
 		this.fieldDensity = fieldDensity;
-		totalMines = (int) (fieldLength * fieldLength * fieldDensity);
-		correctFlags = 0;
-		totalFlags = 0;
-		field = new MSVertex[fieldLength][fieldLength];
-		adjList = new ArrayList<LinkedList<MSVertex>>();
+		this.totalMines = (int) (fieldLength * fieldLength * fieldDensity);
+		this.correctFlags = 0;
+		this.totalFlags = 0;
+		this.field = new MSVertex[fieldLength][fieldLength];
+		this.adjList = new ArrayList<LinkedList<MSVertex>>();
 		populateField();
 		placeMines();
 		setAdjList();
@@ -152,18 +153,25 @@ public class MSField
 		{
 			MSVertex current = queue.poll();
 			current.setExplored(true);
-			LinkedList<MSVertex>currentAdj = adjList.get(current.getVertexNumber());
-			for(MSVertex currentVertex : currentAdj)
+			if(current.getMineCount() == 0)
 			{
-				if (currentVertex.isExplored() == false)
+				LinkedList<MSVertex>currentAdj = adjList.get(current.getVertexNumber());
+				for(MSVertex currentVertex : currentAdj)
 				{
-					currentVertex.setExplored(true);
-					if (currentVertex.getMineCount() == 0)
+					if (currentVertex.isExplored() == false)
 					{
-						queue.offer(currentVertex);
+						if (currentVertex.getMineCount() == 0)
+						{
+							queue.offer(currentVertex);
+						}
+						else
+						{
+							currentVertex.setExplored(true);
+						}
 					}
 				}
 			}
+			
 		}
 	}
 	
@@ -187,5 +195,26 @@ public class MSField
 	public int getTotalFlags()
 	{
 		return totalFlags;
+	}
+	
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(" ");
+		for(int y = 0; y < fieldLength; y++)
+		{
+			sb.append("|" + y);
+		}
+		sb.append("|\n");
+		for(int x = 0; x < fieldLength; x++)
+		{
+			sb.append(x);
+			for(int y = 0; y < fieldLength; y++)
+			{
+				sb.append("|" + field[x][y].toString());
+			}
+			sb.append("|\n");
+		}
+		return sb.toString();
 	}
 }
