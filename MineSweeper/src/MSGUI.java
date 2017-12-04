@@ -1,4 +1,5 @@
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,9 +17,11 @@ public class MSGUI
 	private JRadioButton thin;
 	private JRadioButton normal;
 	private JRadioButton thick;
+	private JButton startButton;
 	private JPanel startPanel;
 	private JPanel fieldPanel;
 	private JPanel[][] panels;
+	//Need to decide if doing Image overlay or Text overlay (probably Image)
 	private MSField field;
 	
 	public MSGUI()
@@ -40,5 +43,7 @@ public class MSGUI
 		density.add(thin);
 		density.add(normal);
 		density.add(thick);
+		startButton = new JButton();
+		//add listener for field creation
 	}
 }
