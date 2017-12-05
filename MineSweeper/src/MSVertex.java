@@ -54,13 +54,13 @@ public class MSVertex
 	}
 	public int getImage()
 	{
-		if(!explored)
-		{
-			return 9;
-		}
-		else if(flagged)
+		if(flagged)
 		{
 			return 10;
+		}
+		else if(!explored)
+		{
+			return 9;
 		}
 		else if(mine)
 		{

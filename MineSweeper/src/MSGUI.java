@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -72,7 +74,7 @@ public class MSGUI
 		setImages();
 		labels = null;
 		fieldPanel = null;
-		addListeners();
+		addStartListener();
 		//fieldPanel = new JPanel();
 		frame.add(startPanel, BorderLayout.NORTH);
 		frame.setVisible(true);
@@ -172,10 +174,11 @@ public class MSGUI
 			}
 		}
 		frame.add(fieldPanel, BorderLayout.CENTER);
+		addLabelListeners();
 		updateField();
 		
 	}
-	private void addListeners()
+	private void addStartListener()
 	{
 		startButton.addActionListener(new ActionListener()
 		{
@@ -185,6 +188,42 @@ public class MSGUI
 			}
 		});
 	}
+	private void addLabelListeners()
+	{
+		for(int x = 0; x < field.getLength(); x++)
+		{
+			int x1 = x;
+			for(int y = 0; y < field.getLength(); y++)
+			{
+				int y1 = y;
+				labels[x][y].addMouseListener(new MouseAdapter()
+				{
+					private int x = x1;
+					private int y = y1;
+					public void mouseClicked(MouseEvent e)
+					{
+						if(e.getButton() == 1)
+						{
+							if (field.exploreVertex(x, y) == false)
+							{
+								
+								//loss message here
+							}
+						}
+						else if(e.getButton() == 3)
+						{
+							MSVertex current = field.getMSVertex(x, y);
+							boolean flagged = current.isFlagged();
+							current.setFlagged(!flagged);
+							
+						}
+						updateField();
+					}
+				});
+			}
+		}
+	}
+	
 	private int chooseLength()
 	{
 		if(small.isSelected())

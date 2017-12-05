@@ -133,6 +133,7 @@ public class MSField
 		MSVertex current = field[x][y];
 		if (current.isMine())
 		{
+			current.setExplored(true);
 			return false;
 		}
 		else
