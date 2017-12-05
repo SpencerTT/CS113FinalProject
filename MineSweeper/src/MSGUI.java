@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -67,13 +69,12 @@ public class MSGUI
 		totalFlags = new JLabel("");
 		startPanel = new JPanel();
 		setStartPanel();
-		fieldPanel = new JPanel();
 		setImages();
-		addField();
-		updateField();
-		
+		labels = null;
+		fieldPanel = null;
+		addListeners();
+		//fieldPanel = new JPanel();
 		frame.add(startPanel, BorderLayout.NORTH);
-		frame.add(fieldPanel, BorderLayout.CENTER);
 		frame.setVisible(true);
 	}
 	
@@ -148,6 +149,11 @@ public class MSGUI
 	
 	private void addField()
 	{
+		if (fieldPanel != null)
+		{
+			frame.remove(fieldPanel);
+		}
+		fieldPanel = new JPanel();
 		int theLength = chooseLength();
 		double theDensity = chooseDensity();
 		field = new MSField(theLength, theDensity);
@@ -165,6 +171,19 @@ public class MSGUI
 				fieldPanel.add(labels[x][y], c);
 			}
 		}
+		frame.add(fieldPanel, BorderLayout.CENTER);
+		updateField();
+		
+	}
+	private void addListeners()
+	{
+		startButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				addField();
+			}
+		});
 	}
 	private int chooseLength()
 	{
@@ -204,7 +223,9 @@ public class MSGUI
 			for(int y = 0; y < field.getLength(); y++)
 			{
 				labels[x][y].setIcon(new ImageIcon(images[field.getMSVertex(x, y).getImage()]));
+				System.out.println(field.getLength());
 			}
 		}
+		fieldPanel.repaint();
 	}
 }
