@@ -4,7 +4,6 @@ import java.util.LinkedList;
 public class MSField
 {
 	private int fieldLength;
-	@SuppressWarnings("unused")
 	private double fieldDensity;
 	private int totalMines;
 	private int correctFlags;

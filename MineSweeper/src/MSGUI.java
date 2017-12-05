@@ -1,18 +1,14 @@
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import java.awt.image.CropImageFilter;
-import java.awt.image.FilteredImageSource;
+
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -66,15 +62,8 @@ public class MSGUI
 		startPanel = new JPanel();
 		
 		fieldPanel = new JPanel();
-		//fieldPanel.setSize(256,256);
-		//fieldPanel.setMaximumSize(new Dimension(256, 256));
-		//fieldPanel.setMinimumSize(new Dimension(256, 256));
 		setImages();
 		addField();
-		
-		
-		//JLabel test = new JLabel(new ImageIcon(images[11]));
-		//fieldPanel.add(test);
 		updateField();
 		
 		frame.add(startPanel);
@@ -89,6 +78,7 @@ public class MSGUI
 			File allFile = new File("src/MSTiles.jpg");
 			all = ImageIO.read(allFile);
 			images = new BufferedImage[12];
+			//Get all the images
 			for(int y = 0; y < 2; y++)
 			{
 				for(int x = 1; x < 5; x++)
@@ -100,6 +90,7 @@ public class MSGUI
 			images[9] = all.getSubimage(0, 0, 128, 128);
 			images[10] = all.getSubimage(128, 0, 128, 128);
 			images[11] = all.getSubimage(256, 0, 128, 128);
+			//Resize images to 32x32
 			for(int x = 0; x < 12; x++)
 			{
 				BufferedImage small = new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
