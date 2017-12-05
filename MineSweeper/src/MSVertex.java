@@ -52,6 +52,25 @@ public class MSVertex
 	{
 		return vertexNumber;
 	}
+	public int getImage()
+	{
+		if(!explored)
+		{
+			return 9;
+		}
+		else if(flagged)
+		{
+			return 10;
+		}
+		else if(mine)
+		{
+			return 11;
+		}
+		else
+		{
+			return mineCount;
+		}
+	}
 	
 	public String toString()
 	{

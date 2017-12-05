@@ -184,6 +184,14 @@ public class MSField
 		this.totalFlags = totalFlags;
 	}
 	
+	public int getLength()
+	{
+		return fieldLength;
+	}
+	public double getDensity()
+	{
+		return fieldDensity;
+	}
 	public int getTotalMines()
 	{
 		return totalMines;
@@ -195,6 +203,11 @@ public class MSField
 	public int getTotalFlags()
 	{
 		return totalFlags;
+	}
+	
+	public MSVertex getMSVertex(int x, int y)
+	{
+		return field[x][y];
 	}
 	
 	public String toString()
