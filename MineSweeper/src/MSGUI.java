@@ -29,6 +29,9 @@ public class MSGUI
 	private JRadioButton normal;
 	private JRadioButton thick;
 	private JButton startButton;
+	private JLabel message;
+	private JLabel totalMines;
+	private JLabel totalFlags;
 	private JPanel startPanel;
 	private JPanel fieldPanel;
 	private JLabel[][] labels;
@@ -57,17 +60,20 @@ public class MSGUI
 		density.add(thin);
 		density.add(normal);
 		density.add(thick);
-		startButton = new JButton();
+		startButton = new JButton("New Game");
 		//add listener for field creation
+		message = new JLabel("");
+		totalMines = new JLabel("");
+		totalFlags = new JLabel("");
 		startPanel = new JPanel();
-		
+		setStartPanel();
 		fieldPanel = new JPanel();
 		setImages();
 		addField();
 		updateField();
 		
-		frame.add(startPanel);
-		frame.add(fieldPanel);
+		frame.add(startPanel, BorderLayout.NORTH);
+		frame.add(fieldPanel, BorderLayout.CENTER);
 		frame.setVisible(true);
 	}
 	
@@ -105,6 +111,39 @@ public class MSGUI
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private void setStartPanel()
+	{
+		startPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		startPanel.add(lengthLabel, c);
+		c.gridx = 1;
+		startPanel.add(small, c);
+		c.gridx = 2;
+		startPanel.add(medium, c);
+		c.gridx = 3;
+		startPanel.add(large, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		startPanel.add(densityLabel, c);
+		c.gridx = 1;
+		startPanel.add(thin, c);
+		c.gridx = 2;
+		startPanel.add(normal, c);
+		c.gridx = 3;
+		startPanel.add(thick, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		startPanel.add(startButton, c);
+		c.gridx = 1;
+		startPanel.add(message, c);
+		c.gridx = 2;
+		startPanel.add(totalMines, c);
+		c.gridx = 3;
+		startPanel.add(totalFlags, c);
 	}
 	
 	private void addField()
@@ -157,6 +196,7 @@ public class MSGUI
 			return .2;
 		}
 	}
+	
 	private void updateField()
 	{
 		for(int x = 0; x < field.getLength(); x++)
