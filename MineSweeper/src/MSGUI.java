@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.CropImageFilter;
@@ -40,9 +42,9 @@ public class MSGUI
 	
 	public MSGUI()
 	{
-		frame = new JFrame();
+		frame = new JFrame("MineSweeper");
 		frame.setLayout(new BorderLayout());
-		frame.setSize(256, 256);
+		frame.setSize(800, 600);
 		lengthLabel = new JLabel("Field Length: ");
 		length = new ButtonGroup();
 		small = new JRadioButton("8 x 8 Field", true);
@@ -64,9 +66,9 @@ public class MSGUI
 		startPanel = new JPanel();
 		
 		fieldPanel = new JPanel();
-		fieldPanel.setSize(256,256);
-		fieldPanel.setMaximumSize(new Dimension(256, 256));
-		fieldPanel.setMinimumSize(new Dimension(256, 256));
+		//fieldPanel.setSize(256,256);
+		//fieldPanel.setMaximumSize(new Dimension(256, 256));
+		//fieldPanel.setMinimumSize(new Dimension(256, 256));
 		setImages();
 		addField();
 		
@@ -120,16 +122,17 @@ public class MSGUI
 		double theDensity = chooseDensity();
 		field = new MSField(theLength, theDensity);
 		labels = new JLabel[theLength][theLength];
-		fieldPanel.setLayout(new GridLayout(theLength, theLength, 0, 0));
+		fieldPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
 		for(int x = 0; x < field.getLength(); x++)
 		{
 			for(int y = 0; y < field.getLength(); y++)
 			{
 				labels[x][y] = new JLabel();
-				labels[x][y].setMaximumSize(new Dimension(32, 32));
-				labels[x][y].setMinimumSize(new Dimension(32, 32));
-				labels[x][y].setSize(32, 32);
-				fieldPanel.add(labels[x][y]);
+				c.gridx = x;
+				c.gridy = y;
+				fieldPanel.add(labels[x][y], c);
 			}
 		}
 	}
