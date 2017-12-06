@@ -71,6 +71,29 @@ public class MSVertex
 			return mineCount;
 		}
 	}
+	public int getFinalImage()
+	{
+		if(flagged && mine)
+		{
+			return 12;
+		}
+		else if(flagged)
+		{
+			return 10;
+		}
+		else if(mine)
+		{
+			return 11;
+		}
+		else if(!explored)
+		{
+			return 9;
+		}
+		else
+		{
+			return mineCount;
+		}
+	}
 	
 	public String toString()
 	{

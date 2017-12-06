@@ -87,7 +87,7 @@ public class MSGUI
 		{
 			File allFile = new File("src/MSTiles.jpg");
 			all = ImageIO.read(allFile);
-			images = new BufferedImage[12];
+			images = new BufferedImage[13];
 			//Get all the images
 			for(int y = 0; y < 2; y++)
 			{
@@ -109,6 +109,15 @@ public class MSGUI
 				g.dispose();
 				images[x] = small;
 			}
+			//Make image13 (only used during win screen)
+			BufferedImage top = images[10];
+			BufferedImage bot = images[11];
+			BufferedImage mash = new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
+			Graphics g = mash.createGraphics();
+			g.drawImage(top, 0, 0, 32, 16, null);
+			g.drawImage(bot, 0, 16, 32, 16, null);
+			g.dispose();
+			images[12] = mash;
 			
 		}
 		catch (IOException e)
@@ -216,18 +225,6 @@ public class MSGUI
 								{
 									if(field.exploreVertex(x, y) == false)
 									{
-										//Mines Revealed
-										for(int x = 0; x < field.getLength(); x++)
-										{
-											for(int y = 0; y < field.getLength(); y++)
-											{
-												MSVertex current = field.getMSVertex(x, y);
-												if(current.isMine() && !current.isFlagged())
-												{
-													current.setExplored(true);
-												}
-											}
-										}
 										//loss message
 										message.setText("You Lost!");
 										//Freeze the board
@@ -314,7 +311,15 @@ public class MSGUI
 		{
 			for(int y = 0; y < field.getLength(); y++)
 			{
-				labels[x][y].setIcon(new ImageIcon(images[field.getMSVertex(x, y).getImage()]));
+				if(!gameOver)
+				{
+					labels[x][y].setIcon(new ImageIcon(images[field.getMSVertex(x, y).getImage()]));
+				}
+				else
+				{
+					labels[x][y].setIcon(new ImageIcon(images[field.getMSVertex(x, y).getFinalImage()]));
+				}
+				
 			}
 		}
 		fieldPanel.repaint();
