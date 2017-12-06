@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -42,12 +43,13 @@ public class MSGUI
 	private BufferedImage all;
 	private BufferedImage[] images;
 	private MSField field;
+	private boolean gameOver;
 	
 	public MSGUI()
 	{
 		frame = new JFrame("MineSweeper");
 		frame.setLayout(new BorderLayout());
-		frame.setSize(800, 600);
+		frame.setSize(500, 600);
 		lengthLabel = new JLabel("Field Length: ");
 		length = new ButtonGroup();
 		small = new JRadioButton("8 x 8 Field", true);
@@ -70,12 +72,11 @@ public class MSGUI
 		totalMines = new JLabel("");
 		totalFlags = new JLabel("");
 		startPanel = new JPanel();
-		setStartPanel();
 		setImages();
+		setStartPanel();
 		labels = null;
 		fieldPanel = null;
 		addStartListener();
-		//fieldPanel = new JPanel();
 		frame.add(startPanel, BorderLayout.NORTH);
 		frame.setVisible(true);
 	}
@@ -159,6 +160,10 @@ public class MSGUI
 		int theLength = chooseLength();
 		double theDensity = chooseDensity();
 		field = new MSField(theLength, theDensity);
+		message.setText("");
+		totalMines.setText("Mines: " + field.getTotalMines());
+		totalFlags.setText("Flags: "+ field.getTotalFlags());
+		gameOver = false;
 		labels = new JLabel[theLength][theLength];
 		fieldPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -202,23 +207,67 @@ public class MSGUI
 					private int y = y1;
 					public void mouseClicked(MouseEvent e)
 					{
-						if(e.getButton() == 1)
+						if(gameOver == false)
 						{
-							if (field.exploreVertex(x, y) == false)
+							if(e.getButton() == 1)
 							{
-								
-								//loss message here
+								if (field.exploreVertex(x, y) == false)
+								{
+									//Mines Revealed
+									for(int x = 0; x < field.getLength(); x++)
+									{
+										for(int y = 0; y < field.getLength(); y++)
+										{
+											MSVertex current = field.getMSVertex(x, y);
+											if(current.isMine() && !current.isFlagged())
+											{
+												current.setExplored(true);
+											}
+										}
+									}
+									//loss message
+									message.setText("You Lost!");
+									//Freeze the board
+									gameOver = true;
+								}
 							}
+							else if(e.getButton() == 3)
+							{
+								MSVertex current = field.getMSVertex(x, y);
+								boolean flagged = current.isFlagged();
+								if(!current.isExplored())
+								{
+									current.setFlagged(!flagged);
+									if(flagged)
+									{
+										field.setTotalFlags(field.getTotalFlags()-1);
+										if(current.isMine())
+										{
+											field.setCorrectFlags(field.getCorrectFlags()-1);
+										}
+									}
+									else
+									{
+										field.setTotalFlags(field.getTotalFlags()+1);
+										if(current.isMine())
+										{
+											field.setCorrectFlags(field.getCorrectFlags()+1);
+										}
+									}
+									if(field.getTotalMines() == field.getCorrectFlags() &&
+									   field.getTotalMines() == field.getTotalFlags())
+									{
+										//win message
+										message.setText("You Won!");
+										//Freeze the board
+										gameOver = true;
+									}
+								}
+								totalFlags.setText("Flags: "+ field.getTotalFlags());
+							}
+							updateField();
 						}
-						else if(e.getButton() == 3)
-						{
-							MSVertex current = field.getMSVertex(x, y);
-							boolean flagged = current.isFlagged();
-							current.setFlagged(!flagged);
-							
-						}
-						updateField();
-					}
+					}	
 				});
 			}
 		}
@@ -262,7 +311,6 @@ public class MSGUI
 			for(int y = 0; y < field.getLength(); y++)
 			{
 				labels[x][y].setIcon(new ImageIcon(images[field.getMSVertex(x, y).getImage()]));
-				System.out.println(field.getLength());
 			}
 		}
 		fieldPanel.repaint();
