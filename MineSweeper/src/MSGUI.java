@@ -205,30 +205,34 @@ public class MSGUI
 				{
 					private int x = x1;
 					private int y = y1;
-					public void mouseClicked(MouseEvent e)
+					
+					public void mousePressed(MouseEvent e)
 					{
 						if(gameOver == false)
 						{
 							if(e.getButton() == 1)
 							{
-								if (field.exploreVertex(x, y) == false)
+								if(field.getMSVertex(x, y).isFlagged() == false)
 								{
-									//Mines Revealed
-									for(int x = 0; x < field.getLength(); x++)
+									if(field.exploreVertex(x, y) == false)
 									{
-										for(int y = 0; y < field.getLength(); y++)
+										//Mines Revealed
+										for(int x = 0; x < field.getLength(); x++)
 										{
-											MSVertex current = field.getMSVertex(x, y);
-											if(current.isMine() && !current.isFlagged())
+											for(int y = 0; y < field.getLength(); y++)
 											{
-												current.setExplored(true);
+												MSVertex current = field.getMSVertex(x, y);
+												if(current.isMine() && !current.isFlagged())
+												{
+													current.setExplored(true);
+												}
 											}
 										}
+										//loss message
+										message.setText("You Lost!");
+										//Freeze the board
+										gameOver = true;
 									}
-									//loss message
-									message.setText("You Lost!");
-									//Freeze the board
-									gameOver = true;
 								}
 							}
 							else if(e.getButton() == 3)
