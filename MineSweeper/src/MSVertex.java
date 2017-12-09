@@ -1,11 +1,14 @@
 public class MSVertex
 {
-	private boolean mine;
-	private boolean flagged;
+	private boolean mine; // false if the vertex is not a mine
+	private boolean flagged; 
 	private boolean explored;
 	private int mineCount;
-	private int vertexNumber;
-	
+	private int vertexNumber; 
+	/**
+	 * Constructs an unexplored, unflagged, and disarmed mine vertex.
+	 * @param vertexNumber the id number of this vertex
+	 */
 	public MSVertex(int vertexNumber)
 	{
 		mine = false;
@@ -14,63 +17,105 @@ public class MSVertex
 		mineCount = 0;
 		this.vertexNumber = vertexNumber;
 	}
-	
+	/**
+	 * sets mine to the parameter
+	 * @param mine arms a vertex if true, disarms if false
+	 */
 	public void setMine(boolean mine)
 	{
 		this.mine = mine;
 	}
+	/**
+	 * sets flagged to the paramater
+	 * @param flagged sets a flag to the tile if true
+	 */
 	public void setFlagged(boolean flagged)
 	{
 		this.flagged = flagged;
 	}
+	/**
+	 * sets the explored instance to the parameter
+	 * @param explored sets the tile to explored if true
+	 */
 	public void setExplored(boolean explored)
 	{
 		this.explored = explored;
 	}
+	/**
+	 * sets the mineCount
+	 * @param mineCount the current number of mines
+	 */
 	public void setMineCount(int mineCount)
 	{
 		this.mineCount = mineCount;
 	}
-	
+	/**
+	 * accessor for mine
+	 * @returns true if the tile is a mine and false if it is not
+	 */
 	public boolean isMine()
 	{
 		return mine;
 	}
+	/**
+	 * accessor for flagged
+	 * @return true if the tile is flagged
+	 */
 	public boolean isFlagged()
 	{
 		return flagged;
 	}
+	/**
+	 * accessor for explored
+	 * @returns true if the tile has been explored
+	 */
 	public boolean isExplored()
 	{
 		return explored;
 	}
+	/**
+	 * accessor for mineCount
+	 * @return the currnent mineCount
+	 */
 	public int getMineCount()
 	{
 		return mineCount;
 	}
+	/**
+	 * accessor for vertexNumber
+	 * @return the id number for this vertex
+	 */
 	public int getVertexNumber()
 	{
 		return vertexNumber;
 	}
+	/**
+	 * accessor for image
+	 * @return the image dependant upon the booleans explored, flagged, and mine
+	 */
 	public int getImage()
 	{
 		if(flagged)
 		{
-			return 10;
+			return 10; // flag image
 		}
 		else if(!explored)
 		{
-			return 9;
+			return 9; // explored tile
 		}
 		else if(mine)
 		{
-			return 11;
+			return 11; // mine
 		}
 		else
 		{
-			return mineCount;
+			return mineCount; // adjecent mine count
 		}
 	}
+	/**
+	 * accessor for the final image, in the event of a win or a game over.
+	 * @return the final image for this vertex
+	 */
 	public int getFinalImage()
 	{
 		if(flagged && mine)
@@ -94,7 +139,9 @@ public class MSVertex
 			return mineCount;
 		}
 	}
-	
+	/**
+	 * returns a string instance of an MSVertex
+	 */
 	public String toString()
 	{
 		if (mine)
