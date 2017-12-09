@@ -77,7 +77,6 @@ public class MSGUI
 		density.add(normal);
 		density.add(thick);
 		startButton = new JButton("New Game");
-		//add listener for field creation
 		message = new JLabel("");
 		totalMines = new JLabel("");
 		totalFlags = new JLabel("");
