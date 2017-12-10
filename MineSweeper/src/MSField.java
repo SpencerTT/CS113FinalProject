@@ -210,7 +210,7 @@ public class MSField
 	 * * Setter to set the amount of total flags
 	 * @param the number of flags
 	 */
-	 */
+	 
 	public void setTotalFlags(int totalFlags)
 	{
 		this.totalFlags = totalFlags;
