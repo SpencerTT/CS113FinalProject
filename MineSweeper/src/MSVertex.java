@@ -1,3 +1,9 @@
+/**
+ * Creates a single Vertex for the MSField to work with
+ * 
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
+ */
 public class MSVertex
 {
 	private boolean mine; // false if the vertex is not a mine
@@ -26,7 +32,7 @@ public class MSVertex
 		this.mine = mine;
 	}
 	/**
-	 * sets flagged to the paramater
+	 * sets flagged to the parameter
 	 * @param flagged sets a flag to the tile if true
 	 */
 	public void setFlagged(boolean flagged)
@@ -91,7 +97,7 @@ public class MSVertex
 	}
 	/**
 	 * accessor for image
-	 * @return the image dependant upon the booleans explored, flagged, and mine
+	 * @return the image dependent upon the booleans explored, flagged, and mine
 	 */
 	public int getImage()
 	{
@@ -109,7 +115,7 @@ public class MSVertex
 		}
 		else
 		{
-			return mineCount; // adjecent mine count
+			return mineCount; // adjacent mine count
 		}
 	}
 	/**

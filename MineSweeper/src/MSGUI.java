@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,9 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 /**
- * 
- * Graphics class that creates a frame which contains an MSField and a startPanel for MSGame
+ * Graphics class that creates a frame which contains an MSField to be called by MSGame
  *
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
  */
 public class MSGUI
 {
@@ -194,7 +194,7 @@ public class MSGUI
 		fieldPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL; 
-		for(int x = 0; x < field.getLength(); x++) // adds each label to the specified locaition
+		for(int x = 0; x < field.getLength(); x++) // adds each label to the specified location
 		{
 			for(int y = 0; y < field.getLength(); y++) 
 			{
@@ -233,7 +233,7 @@ public class MSGUI
 			for(int y = 0; y < field.getLength(); y++)
 			{
 				int y1 = y;
-				labels[x][y].addMouseListener(new MouseAdapter() // adds a listener to each button
+				labels[x][y].addMouseListener(new MouseAdapter() // adds a listener to each label
 				{
 					private int x = x1;
 					private int y = y1;
@@ -258,24 +258,24 @@ public class MSGUI
 							else if(e.getButton() == 3) // right button
 							{
 								MSVertex current = field.getMSVertex(x, y);
-								boolean flagged = current.isFlagged();// set the flag to the tile
+								boolean flagged = current.isFlagged();// keep track of current flag status
 								if(!current.isExplored())
 								{
 									current.setFlagged(!flagged); 
 									if(flagged)
 									{
-										field.setTotalFlags(field.getTotalFlags()-1); // decrements the leftover flags 
+										field.setTotalFlags(field.getTotalFlags()-1); // decrement total flags 
 										if(current.isMine())
 										{
-											field.setCorrectFlags(field.getCorrectFlags()-1); // correct flag so decrement the leftover flags
+											field.setCorrectFlags(field.getCorrectFlags()-1); // decrement correct flags
 										}
 									}
 									else
 									{
-										field.setTotalFlags(field.getTotalFlags()+1); 
+										field.setTotalFlags(field.getTotalFlags()+1); //increment total flags
 										if(current.isMine())
 										{
-											field.setCorrectFlags(field.getCorrectFlags()+1);
+											field.setCorrectFlags(field.getCorrectFlags()+1); // increment correct flags
 										}
 									}
 									if(field.getTotalMines() == field.getCorrectFlags() &&
@@ -297,7 +297,7 @@ public class MSGUI
 		}
 	}
 	/**
-	 * Helper method to set the length of the field. Returns an int dependant on user selection of the length.
+	 * Helper method to set the length of the field. Returns an int dependent on user selection of the length.
 	 * @return the chosen length
 	 */
 	private int chooseLength()
@@ -316,7 +316,7 @@ public class MSGUI
 		}
 	}
 	/**
-	 * Helper method to determine the density dependant on the user selection
+	 * Helper method to determine the density dependent on the user selection
 	 * @return the chosen density
 	 */
 	private double chooseDensity()

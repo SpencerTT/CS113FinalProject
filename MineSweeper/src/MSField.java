@@ -4,8 +4,10 @@ import java.util.LinkedList;
  * 
  * Creates a MineSweeper field with the given length and density.
  *  Contains instances for the length and density of the field, the total and correct flags,
- *  as well as an array of MSVertex and an arrayList of adjecencies. 
+ *  as well as an array of MSVertex and an arrayList of adjacencies. 
  *
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
  */
 public class MSField
 {
@@ -15,9 +17,9 @@ public class MSField
 	private int correctFlags;
 	private int totalFlags;
 	private MSVertex[][] field;// field to hold the tiles
-	private ArrayList<LinkedList<MSVertex>> adjList; // adjecency list
+	private ArrayList<LinkedList<MSVertex>> adjList; // adjacency list
 	/**
-	 * Contstructer creates a MSField with given properties
+	 * Constructor creates a MSField with given properties
 	 * @param fieldLength the size of the field
 	 * @param fieldDensity ratio of mines in the field
 	 */
@@ -71,7 +73,7 @@ public class MSField
 		}
 	}
 	/**
-	 * Creates an adjecency list for each tile in the field and adds all adjencies to that list
+	 * Creates an adjacency list for each tile in the field and adds all adjacencies to that list
 	 */
 	private void setAdjList()
 	{
@@ -79,7 +81,7 @@ public class MSField
 		{
 			for(int y = 0; y < fieldLength; y++)
 			{
-				LinkedList<MSVertex> adjCurrent = new LinkedList<MSVertex>(); // adjecency list
+				LinkedList<MSVertex> adjCurrent = new LinkedList<MSVertex>(); // adjacency list
 				//Upper Left
 				if (x != 0 && y != 0)
 				{
@@ -125,7 +127,7 @@ public class MSField
 		}
 	}
 	/**
-	 * Sets the amount of adjecent mines for each by searching the adjecency list for mines
+	 * Sets the amount of adjacent mines for each by searching the adjacency list for mines
 	 * at that position.
 	 */
 	private void setMineCount()
@@ -166,7 +168,11 @@ public class MSField
 			return true;
 		}
 	}
-	
+	/**
+	 * Performs the BreadthFirstSearch for a tile exploration
+	 * @param x the x coordinate of the explored tile
+	 * @param y the y coordinate of the explored tile
+	 */
 	private void exploreBreadthFirst(int x, int y)
 	{
 		LinkedList<MSVertex> queue = new LinkedList<MSVertex>();
@@ -259,7 +265,7 @@ public class MSField
 	 * accessor that returns a reference to a vertext at (x,y)
 	 * @param x the horizontal position of the vertex
 	 * @param y the vertical position of the vertex
-	 * @return the vertex in the MSField at (x,7)
+	 * @return the vertex in the MSField at (x,y)
 	 */
 	public MSVertex getMSVertex(int x, int y)
 	{
