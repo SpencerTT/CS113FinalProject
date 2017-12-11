@@ -152,6 +152,8 @@ public class MSField
 	}
 	/**
 	 * Explores the tile at x,y. Sets the tile at x,y to explored and returns true if the tile is not a mine
+	 * @param x the x coordinate of the tile about to be explored
+	 * @param y the y coordinate of the tile about to be explored
 	 * @return false if the tile is not a mine or true if it is a mine
 	 */
 	public boolean exploreVertex(int x, int y)
@@ -262,7 +264,7 @@ public class MSField
 		return totalFlags;
 	}
 	/**
-	 * accessor that returns a reference to a vertext at (x,y)
+	 * accessor that returns a reference to a vertex at (x,y)
 	 * @param x the horizontal position of the vertex
 	 * @param y the vertical position of the vertex
 	 * @return the vertex in the MSField at (x,y)
