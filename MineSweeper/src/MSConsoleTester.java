@@ -2,7 +2,8 @@ import java.util.Scanner;
 /**
  * Tests the MSField class by creating a console based MSGame
  * 
- *
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
  */
 public class MSConsoleTester
 {
