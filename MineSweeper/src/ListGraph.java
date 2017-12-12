@@ -22,4 +22,6 @@ public class ListGraph  implements Graph
 			edges[i] = new LinkedList<Edge>();
 		}
 	}
+	
+	
 }
