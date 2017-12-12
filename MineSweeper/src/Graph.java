@@ -11,7 +11,7 @@ public interface Graph
 	
 	boolean isEdge(int source, int dest);
 	
-	E getEdge(int source, int dest);
+	Edge getEdge(int source, int dest);
 	
 	Iterator<Edge> edgeIterator(int source);
 }
