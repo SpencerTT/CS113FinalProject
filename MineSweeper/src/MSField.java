@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 /**
  * 
@@ -17,7 +18,7 @@ public class MSField
 	private int correctFlags;
 	private int totalFlags;
 	private MSVertex[][] field;// field to hold the tiles
-	private ArrayList<LinkedList<MSVertex>> adjList; // adjacency list
+	private ListGraph graph;
 	/**
 	 * Constructor creates a MSField with given properties
 	 * @param fieldLength the size of the field
@@ -32,7 +33,7 @@ public class MSField
 		this.correctFlags = 0;
 		this.totalFlags = 0;
 		this.field = new MSVertex[fieldLength][fieldLength];
-		this.adjList = new ArrayList<LinkedList<MSVertex>>();
+		this.graph = new ListGraph(fieldLength * fieldLength, false);
 		populateField();
 		placeMines();
 		setAdjList();
@@ -81,48 +82,46 @@ public class MSField
 		{
 			for(int y = 0; y < fieldLength; y++)
 			{
-				LinkedList<MSVertex> adjCurrent = new LinkedList<MSVertex>(); // adjacency list
 				//Upper Left
 				if (x != 0 && y != 0)
 				{
-					adjCurrent.add(field[x-1][y-1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y-1].getVertexNumber()));
 				}
 				//Up
 				if (x != 0)
 				{
-					adjCurrent.add(field[x-1][y]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y-1].getVertexNumber()));
 				}
 				//Upper Right
 				if (x != 0 && y != fieldLength - 1)
 				{
-					adjCurrent.add(field[x-1][y+1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y-1].getVertexNumber()));
 				}
 				//Left
 				if (y != 0)
 				{
-					adjCurrent.add(field[x][y-1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y].getVertexNumber()));
 				}
 				//Right
 				if (y != fieldLength - 1)
 				{
-					adjCurrent.add(field[x][y+1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y].getVertexNumber()));
 				}
 				//Lower Left
 				if (x != fieldLength - 1 && y != 0)
 				{
-					adjCurrent.add(field[x+1][y-1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y+1].getVertexNumber()));
 				}
 				//Low
 				if (x != fieldLength - 1)
 				{
-					adjCurrent.add(field[x+1][y]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y+1].getVertexNumber()));
 				}
 				//Lower Right
 				if (x != fieldLength - 1 && y != fieldLength - 1)
 				{
-					adjCurrent.add(field[x+1][y+1]);
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y+1].getVertexNumber()));
 				}
-				adjList.add(adjCurrent);
 			}
 		}
 	}
@@ -138,10 +137,11 @@ public class MSField
 			{
 				int mineCount = 0;
 				MSVertex current = field[x][y];
-				LinkedList<MSVertex>currentAdj = adjList.get(x * fieldLength + y);
-				for(MSVertex currentVertex : currentAdj) // search the list for mines
+				Iterator<Edge> edges = graph.edgeIterator(field[x][y].getVertexNumber());
+				while(edges.hasNext()) // search the list for mines
 				{
-					if(currentVertex.isMine())
+					Edge currentEdge = edges.next();
+					if(getMSVertex(currentEdge.getDestination()).isMine())
 					{
 						mineCount++; // increment the total mine count
 					}
@@ -187,18 +187,20 @@ public class MSField
 			current.setExplored(true);
 			if(current.getMineCount() == 0)
 			{
-				LinkedList<MSVertex>currentAdj = adjList.get(current.getVertexNumber());
-				for(MSVertex currentVertex : currentAdj)
+				Iterator<Edge> edges = graph.edgeIterator(field[x][y].getVertexNumber());
+				while(edges.hasNext())
 				{
-					if (currentVertex.isExplored() == false)
+					Edge currentEdge = edges.next();
+					MSVertex currentMSV = getMSVertex(currentEdge.getDestination());
+					if (currentMSV.isExplored() == false)
 					{
-						if (currentVertex.getMineCount() == 0)
+						if (currentMSV.getMineCount() == 0)
 						{
-							queue.offer(currentVertex);
+							queue.offer(currentMSV);
 						}
 						else
 						{
-							currentVertex.setExplored(true);
+							currentMSV.setExplored(true);
 						}
 					}
 				}
@@ -277,6 +279,18 @@ public class MSField
 	 * returns a String of the field
 	 * @return a String reference of MSField
 	 */
+	public MSVertex getMSVertex(int num)
+	{
+		int x = 0;
+		int y = 0;
+		while(num >= fieldLength)
+		{
+			num -= fieldLength;
+			y += 1;
+		}
+		x = num;
+		return field[x][y];
+	}
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
