@@ -5,7 +5,8 @@ private int source;
 private double weight;
 public Edge(int source, int destination){
 	this.source= source;
-	this.destination = 1;
+	this.destination = destination;
+	this.weight = 1;
 }
 public Edge(int source, int destination, double weight){
 	this.source = source;
