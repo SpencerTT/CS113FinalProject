@@ -2,7 +2,6 @@ import java.util.Iterator;
 
 public interface Graph
 {
-	
 	int getNumV();
 	
 	boolean isDirected();
