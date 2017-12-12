@@ -55,6 +55,7 @@ public class ListGraph  extends AbstractGraph
 	public void insert(Edge edge)
 	{
 		edges[edge.getSource()].add(edge);
+		/*
 		if(!isDirected())
 		{
 			edges[edge.getDestination()].add(new Edge(
@@ -62,6 +63,7 @@ public class ListGraph  extends AbstractGraph
 					edge.getSource(),
 					edge.getWeight()));
 		}
+		*/
 	}
 	/**
 	 * Determine whether an edge exists.

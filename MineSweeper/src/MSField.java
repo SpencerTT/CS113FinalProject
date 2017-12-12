@@ -90,32 +90,32 @@ public class MSField
 				//Up
 				if (x != 0)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y-1].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y].getVertexNumber()));
 				}
 				//Upper Right
 				if (x != 0 && y != fieldLength - 1)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y-1].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y+1].getVertexNumber()));
 				}
 				//Left
 				if (y != 0)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y-1].getVertexNumber()));
 				}
 				//Right
 				if (y != fieldLength - 1)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y+1].getVertexNumber()));
 				}
 				//Lower Left
 				if (x != fieldLength - 1 && y != 0)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x-1][y+1].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y-1].getVertexNumber()));
 				}
 				//Low
 				if (x != fieldLength - 1)
 				{
-					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x][y+1].getVertexNumber()));
+					graph.insert( new Edge(field[x][y].getVertexNumber(), field[x+1][y].getVertexNumber()));
 				}
 				//Lower Right
 				if (x != fieldLength - 1 && y != fieldLength - 1)
@@ -191,6 +191,7 @@ public class MSField
 				while(edges.hasNext())
 				{
 					Edge currentEdge = edges.next();
+					System.out.println(currentEdge);
 					MSVertex currentMSV = getMSVertex(currentEdge.getDestination());
 					if (currentMSV.isExplored() == false)
 					{
@@ -286,9 +287,9 @@ public class MSField
 		while(num >= fieldLength)
 		{
 			num -= fieldLength;
-			y += 1;
+			x += 1;
 		}
-		x = num;
+		y = num;
 		return field[x][y];
 	}
 	public String toString()
