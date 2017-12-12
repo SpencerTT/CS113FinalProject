@@ -15,7 +15,7 @@ public Edge(int source, int destination, double weight){
 public boolean equals(Object other){
 	if(other != getClass()){
 		return false;}
-	Edge temp = new Edge(other.getSource(), other.getDestination(), other.getWeight());
+	Edge temp = (Edge) other;
 	return (temp.getSource() == getSource() && temp.getDestination() == getDestination() && temp.getWeight() == getWeight());
 	}
 public int getDestination(){
