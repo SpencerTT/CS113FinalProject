@@ -1,5 +1,11 @@
 import java.util.Iterator;
 
+/**
+ * An interface for the Graph data structure
+ *
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
+ */
 public interface Graph
 {
 	//Getters

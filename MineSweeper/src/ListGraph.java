@@ -1,7 +1,9 @@
 import java.util.*;
-/*
- * A ListGraph is a class that uses an 
- * array of lists to represent edges
+/**
+ * ListGraph is a class that uses an array of lists to represent edges among vertices
+ * 
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
  */
 public class ListGraph  extends AbstractGraph
 {
@@ -13,6 +15,7 @@ public class ListGraph  extends AbstractGraph
 	private List<Edge>[]edges;
 	
 	//constructor
+	@SuppressWarnings("unchecked")
 	public ListGraph(int numV, boolean directed)
 	{
 		super(numV, directed);
@@ -72,5 +75,4 @@ public class ListGraph  extends AbstractGraph
 	{
 		return edges[source].contains(new Edge(source, dest));
 	}
-	
 }

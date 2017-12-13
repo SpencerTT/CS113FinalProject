@@ -1,5 +1,12 @@
 import java.util.Iterator;
 
+/**
+ * A class that extends Graph but is not fully functional
+ *
+ * @Authors: Spencer, Shawn, Eric
+ * @version 1.0
+ */
+
 public class AbstractGraph implements Graph
 {
 
@@ -47,8 +54,8 @@ public class AbstractGraph implements Graph
 	}
 	//stub
 	@Override
-	public Iterator<Edge> edgeIterator(int source) {
+	public Iterator<Edge> edgeIterator(int source)
+	{
 		return null;
 	}
-	
 }
