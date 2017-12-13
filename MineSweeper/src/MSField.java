@@ -187,11 +187,10 @@ public class MSField
 			current.setExplored(true);
 			if(current.getMineCount() == 0)
 			{
-				Iterator<Edge> edges = graph.edgeIterator(field[x][y].getVertexNumber());
+				Iterator<Edge> edges = graph.edgeIterator(current.getVertexNumber());
 				while(edges.hasNext())
 				{
 					Edge currentEdge = edges.next();
-					System.out.println(currentEdge);
 					MSVertex currentMSV = getMSVertex(currentEdge.getDestination());
 					if (currentMSV.isExplored() == false)
 					{
@@ -290,6 +289,7 @@ public class MSField
 			x += 1;
 		}
 		y = num;
+		
 		return field[x][y];
 	}
 	public String toString()
